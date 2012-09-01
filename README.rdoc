@@ -1,0 +1,57 @@
+= NumCoder
+
+A simple number to string encoder/decoder gem, Base64 style.
+It takes a number and encodes it to the selected charset. To do so, it changes de number from base 10 to base-size-of-selected-charset. Meaning you can get a large integer represented in less characters than it would if you used a straight decimal representation. Useful for those places where you only have support for strings.
+
+== Setup and usage example
+
+First, get the gem:
+    $ gem install num_coder
+
+Or place it on your Gemspec and bundle install it. Now, fire up irb and load num_coder:
+    $ irb
+    > require "num_coder"
+
+Now, test some examples using the included charsets. Number to Base64 string:
+    > NumCoder.encode64 1234567890
+    => "BJlgLS"
+
+Number to Base95 (all readable ASCII charaters) string:
+    > NumCoder.encode95 1234567890
+    => "/.y5M"
+
+Number to Base16 (hexa) string:
+    > NumCoder.encode16 1234567890
+    => "499602d2"
+
+Strings on different bases to number:
+    > NumCoder.decode95 "/.y5M"
+    => 1234567890
+    > NumCoder.decode64 "BJlgLS"
+    => 1234567890
+    > NumCoder.decode16 "499602d2"
+    => 1234567890
+
+Finally, you can encode and decode using a charset of your own:
+    > NumCoder.encode "áéíóúãõâêîôû*@!.,[]", 1234567890
+    => "éâúûãâ*â"
+    > NumCoder.encode "0987654321", 1234567890
+    => "9876543210"
+    > NumCoder.decode "0123456789abcdefghijklmnopqrstuvwxyz ", "foo bar"
+    => 40196969931
+
+== Included charsets
+
+For your convenience. Here they are:
+
+Base95:
+    > puts NumCoder.cs95
+     !"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~
+
+Base64:
+    > puts NumCoder.cs64
+    => ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/
+
+Base16:
+    > puts NumCoder.cs16
+    => 0123456789abcdef
