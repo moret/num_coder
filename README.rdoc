@@ -1,7 +1,8 @@
 = NumCoder
 
-A simple number to string encoder/decoder gem, Base64 style.
-It takes a number and encodes it to the selected charset. To do so, it changes de number from base 10 to base-size-of-selected-charset. Meaning you can get a large integer represented in less characters than it would if you used a straight decimal representation. Useful for those places where you only have support for strings.
+A simple numbers to string encoder/decoder gem, Base64 style.
+
+It takes a number - or a list of numbers - and encodes it to the selected charset. To do so, it changes de number from base 10 to base-size-of-selected-charset. Meaning you can get a large integer represented in less characters than it would if you used a straight decimal representation. Useful for those places where you only have support for strings.
 
 == Setup and usage example
 
@@ -12,27 +13,31 @@ Or place it on your Gemspec and bundle install it. Now, fire up irb and load num
     $ irb
     > require "num_coder"
 
-Now, test some examples using the included charsets. Number to Base64 string:
-    > NumCoder.encode64 1234567890
-    => "BJlgLS"
+Now, test some examples using the included charsets.
 
-Number to Base95 (all readable ASCII charaters) string:
+Number to Base95 (all readable ASCII charaters) string and back:
     > NumCoder.encode95 1234567890
     => "/.y5M"
-
-Number to Base16 (hexa) string:
-    > NumCoder.encode16 1234567890
-    => "499602d2"
-
-Strings on different bases to number:
     > NumCoder.decode95 "/.y5M"
     => 1234567890
+
+List of numbers to Base95 and back:
+    > NumCoder.fixed_encode95 [1234567890,1876543290,6758493021], 5
+    => "/.y5M7#c69r|iNl"
+    > NumCoder.fixed_decode95 "/.y5M7#c69r|iNl", 5
+    => [1234567890, 1876543290, 6758493021]
+
+Similar on Base64 and Base16 (hexa):
+    > NumCoder.encode64 1234567890
+    => "BJlgLS"
     > NumCoder.decode64 "BJlgLS"
     => 1234567890
+    > NumCoder.encode16 1234567890
+    => "499602d2"
     > NumCoder.decode16 "499602d2"
     => 1234567890
 
-Finally, you can encode and decode using a charset of your own:
+Oh, and one more thing, you can encode and decode directly using a charset of your own:
     > NumCoder.encode "áéíóúãõâêîôû*@!.,[]", 1234567890
     => "éâúûãâ*â"
     > NumCoder.encode "0987654321", 1234567890

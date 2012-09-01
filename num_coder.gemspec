@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'num_coder'
-  s.version     = '1.0.1'
+  s.version     = '1.1.0'
   s.date        = '2012-09-01'
   s.summary     = "Number encoder"
   s.description = "A simple number to string coder/encoder gem, Base64 style"
